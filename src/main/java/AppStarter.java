@@ -1,3 +1,4 @@
+import Model.CSVFileReader;
 import Model.XLSReader;
 import View.UserInterface;
 
@@ -8,11 +9,11 @@ public class AppStarter {
         UserInterface ui = new UserInterface();
         //ui.init();
         try{
-            XLSReader xlsReader = new XLSReader();
-            xlsReader.readXLS();
+            CSVFileReader reader = new CSVFileReader();
+            reader.read();
         }
         catch (IOException e){
-            System.out.println("ΠΠµ Π½Π°ΠΉΠ΄ΠµΠ½ Ρ„Π°ΠΉΠ»");
+            System.out.println("Νε νΰιδεν τΰιλ");
         }
 
     }
