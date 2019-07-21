@@ -25,7 +25,7 @@ public class CSVFileReader {
                 continue;
             }
             if (isServiceBlock){
-                while(!line[2].equals("")){
+                if(!line[2].equals("")){
                     RowService rs = new RowService();
                     if (!line[0].equals("")) rs.setPhone(Long.parseLong(line[0]));
                     if (!line[2].equals("")) rs.setCode(Long.parseLong(line[2]));
@@ -34,9 +34,10 @@ public class CSVFileReader {
                     if (!line[5].equals("")) rs.setAmount(parseFloat(line[5]));
 
                     rowServices.add(rs);
-                    continue;
                 }
-                isServiceBlock = false;
+                else {
+                    isServiceBlock = false;
+                }
             }
         }
         return rowServices;
