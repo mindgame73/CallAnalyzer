@@ -18,11 +18,21 @@ public class XLSReader {
     private HSSFSheet sheet;
 
     public XLSReader() throws IOException {
-        FileInputStream fis = new FileInputStream(new File("src/main/resources/detail_june.xls"));
+        FileInputStream fis = new FileInputStream(new File("src/main/resources/Nec.xls"));
         workbook = new HSSFWorkbook(fis);
         sheet = workbook.getSheetAt(0);
 
-
+    }
+    public int findRowByValue(Long value){
+        for (Row row : sheet){
+            for (Cell cell: row){
+                if (value == (long) cell.getNumericCellValue()){
+                    System.out.println(cell.getRowIndex());
+                    return cell.getRowIndex();
+                }
+            }
+        }
+        return 0;
     }
 
     public void readXLS(){

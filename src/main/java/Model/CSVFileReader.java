@@ -1,39 +1,54 @@
 package Model;
 
+import Controller.UserInterfaceController;
 import au.com.bytecode.opencsv.CSVReader;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 
 public class CSVFileReader {
     private final CSVReader reader;
+    private int blocksRead = 0;
     private boolean isServiceBlock;
-    private ArrayList<RowService> rowServices;
-    public CSVFileReader() throws IOException {
-        reader = new CSVReader(new FileReader("src/main/resources/detail_june.csv"),';');
+    private ArrayList<RowService> rowServices = UserInterfaceController.rowServices;
+    private HashSet<Long> codeSet = UserInterfaceController.codeSet;
+    public CSVFileReader(String path) throws IOException {
+        reader = new CSVReader(new FileReader(path),';');
     }
 
     public ArrayList<RowService> read() throws IOException{
+
         String[] line;
-        rowServices = new ArrayList<>();
+
         while((line=reader.readNext())!=null){
             String category = line[0].toLowerCase();
             if (category.contains("постоянные услуги")||category.contains("разовые услуги")){
                 isServiceBlock = true;
+                blocksRead++;
                 continue;
+
             }
+            if (blocksRead > 2) break;
             if (isServiceBlock){
                 if(!line[2].equals("")){
                     RowService rs = new RowService();
-                    if (!line[0].equals("")) rs.setPhone(Long.parseLong(line[0]));
-                    if (!line[2].equals("")) rs.setCode(Long.parseLong(line[2]));
+                    if (!line[0].equals("")) {
+                        PhoneNumber phoneNumber = new PhoneNumber();
+                        phoneNumber.setPhone(Long.parseLong(line[0]));
+                        rs.setPhone(phoneNumber);
+                    }
+                    if (!line[2].equals("")) {
+                        rs.setCode(Long.parseLong(line[2]));
+                        codeSet.add(Long.parseLong(line[2]));
+                    }
                     if (!line[3].equals("")) rs.setServiceName(line[3]);
                     if (!line[4].equals("")) rs.setAmount(parseFloat(line[4]));
-                    if (!line[5].equals("")) rs.setAmount(parseFloat(line[5]));
+                    if (!line[5].equals("")) rs.setCost(parseFloat(line[5]));
 
                     rowServices.add(rs);
+
                 }
                 else {
                     isServiceBlock = false;
@@ -46,6 +61,9 @@ public class CSVFileReader {
     public void printRowServices(){
         for (RowService rowService : rowServices) {
             System.out.println(rowService);
+        }
+        for (Long aLong : codeSet) {
+            System.out.println(aLong);
         }
     }
 

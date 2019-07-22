@@ -1,19 +1,17 @@
 package Model;
 
 public class RowService {
-    private long phone;
+    private PhoneNumber phone;
     private long code;
     private String serviceName;
     private float amount;
     private float cost;
 
-
-
-    public long getPhone() {
+    public PhoneNumber getPhone() {
         return phone;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(PhoneNumber phone) {
         this.phone = phone;
     }
 
@@ -67,16 +65,16 @@ public class RowService {
 
         RowService that = (RowService) o;
 
-        if (phone != that.phone) return false;
         if (code != that.code) return false;
         if (Float.compare(that.amount, amount) != 0) return false;
         if (Float.compare(that.cost, cost) != 0) return false;
+        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
         return serviceName != null ? serviceName.equals(that.serviceName) : that.serviceName == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (phone ^ (phone >>> 32));
+        int result = phone != null ? phone.hashCode() : 0;
         result = 31 * result + (int) (code ^ (code >>> 32));
         result = 31 * result + (serviceName != null ? serviceName.hashCode() : 0);
         result = 31 * result + (amount != +0.0f ? Float.floatToIntBits(amount) : 0);

@@ -12,5 +12,13 @@ public class AppStarter {
 
         UserInterfaceController controller = new UserInterfaceController(ui);
         controller.init();
+
+        try {
+            XLSReader xlsReader = new XLSReader();
+            xlsReader.findRowByValue(8423579676L);
+        }
+        catch (IOException ex){
+            System.out.println(ex);
+        }
     }
 }
