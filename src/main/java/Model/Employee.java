@@ -1,6 +1,6 @@
 package Model;
 
-public class PhoneNumber {
+public class Employee {
     private long phone;
     private String division;
     private String employeeName;
@@ -43,11 +43,11 @@ public class PhoneNumber {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PhoneNumber that = (PhoneNumber) o;
+        Employee employee = (Employee) o;
 
-        if (phone != that.phone) return false;
-        if (division != null ? !division.equals(that.division) : that.division != null) return false;
-        return employeeName != null ? employeeName.equals(that.employeeName) : that.employeeName == null;
+        if (phone != employee.phone) return false;
+        if (division != null ? !division.equals(employee.division) : employee.division != null) return false;
+        return employeeName != null ? employeeName.equals(employee.employeeName) : employee.employeeName == null;
     }
 
     @Override

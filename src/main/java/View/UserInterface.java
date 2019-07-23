@@ -30,6 +30,14 @@ public class UserInterface {
         return jFrame;
     }
 
+    public JButton getFillButton() {
+        return fillButton;
+    }
+
+    public JButton getRefreshButton() {
+        return refreshButton;
+    }
+
     public RowServiceTableModel getRowServiceTableModel() {
         return rowServiceTableModel;
     }

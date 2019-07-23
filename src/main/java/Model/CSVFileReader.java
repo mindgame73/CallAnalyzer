@@ -35,13 +35,12 @@ public class CSVFileReader {
                 if(!line[2].equals("")){
                     RowService rs = new RowService();
                     if (!line[0].equals("")) {
-                        PhoneNumber phoneNumber = new PhoneNumber();
-                        phoneNumber.setPhone(Long.parseLong(line[0]));
-                        rs.setPhone(phoneNumber);
+                        Employee employee = new Employee();
+                        employee.setPhone(Long.parseLong(line[0]));
+                        rs.setEmployee(employee);
                     }
                     if (!line[2].equals("")) {
                         rs.setCode(Long.parseLong(line[2]));
-                        codeSet.add(Long.parseLong(line[2]));
                     }
                     if (!line[3].equals("")) rs.setServiceName(line[3]);
                     if (!line[4].equals("")) rs.setAmount(parseFloat(line[4]));

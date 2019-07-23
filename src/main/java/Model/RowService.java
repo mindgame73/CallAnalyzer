@@ -1,18 +1,18 @@
 package Model;
 
-public class RowService {
-    private PhoneNumber phone;
+public class RowService{
+    private Employee employee;
     private long code;
     private String serviceName;
     private float amount;
     private float cost;
 
-    public PhoneNumber getPhone() {
-        return phone;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setPhone(PhoneNumber phone) {
-        this.phone = phone;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public long getCode() {
@@ -50,7 +50,7 @@ public class RowService {
     @Override
     public String toString() {
         return "RowService{" +
-                "phone=" + phone +
+                "employee=" + employee +
                 ", code=" + code +
                 ", serviceName='" + serviceName + '\'' +
                 ", amount=" + amount +
@@ -68,17 +68,18 @@ public class RowService {
         if (code != that.code) return false;
         if (Float.compare(that.amount, amount) != 0) return false;
         if (Float.compare(that.cost, cost) != 0) return false;
-        if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
+        if (employee != null ? !employee.equals(that.employee) : that.employee != null) return false;
         return serviceName != null ? serviceName.equals(that.serviceName) : that.serviceName == null;
     }
 
     @Override
     public int hashCode() {
-        int result = phone != null ? phone.hashCode() : 0;
+        int result = employee != null ? employee.hashCode() : 0;
         result = 31 * result + (int) (code ^ (code >>> 32));
         result = 31 * result + (serviceName != null ? serviceName.hashCode() : 0);
         result = 31 * result + (amount != +0.0f ? Float.floatToIntBits(amount) : 0);
         result = 31 * result + (cost != +0.0f ? Float.floatToIntBits(cost) : 0);
         return result;
     }
+
 }

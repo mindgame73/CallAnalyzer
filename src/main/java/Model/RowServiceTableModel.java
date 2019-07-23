@@ -28,18 +28,18 @@ public class RowServiceTableModel extends AbstractTableModel {
             case 0:
                 return r+1;
             case 1:
-                if (rowServices.get(r).getPhone() != null)
-                    return rowServices.get(r).getPhone().getDivision();
+                if (rowServices.get(r).getEmployee() != null)
+                    return rowServices.get(r).getEmployee().getDivision();
                 else
                     return "";
             case 2:
-                if (rowServices.get(r).getPhone() != null)
-                    return rowServices.get(r).getPhone().getEmployeeName();
+                if (rowServices.get(r).getEmployee() != null)
+                    return rowServices.get(r).getEmployee().getEmployeeName();
                 else
                     return "";
             case 3:
-                if (rowServices.get(r).getPhone() != null)
-                    return rowServices.get(r).getPhone().getPhone();
+                if (rowServices.get(r).getEmployee() != null)
+                    return rowServices.get(r).getEmployee().getPhone();
                 else
                     return "";
             case 4:

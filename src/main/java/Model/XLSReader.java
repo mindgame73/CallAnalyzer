@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.UserInterfaceController;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -10,6 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 public class XLSReader {
@@ -17,73 +19,62 @@ public class XLSReader {
     private HSSFWorkbook workbook;
     private HSSFSheet sheet;
 
-    public XLSReader() throws IOException {
-        FileInputStream fis = new FileInputStream(new File("src/main/resources/Nec.xls"));
+    public XLSReader(String path) throws IOException {
+        FileInputStream fis = new FileInputStream(new File(path));
         workbook = new HSSFWorkbook(fis);
-        sheet = workbook.getSheetAt(0);
+        sheet = workbook.getSheet("Лист1");
 
     }
-    public int findRowByValue(Long value){
-        for (Row row : sheet){
-            for (Cell cell: row){
-                if (value == (long) cell.getNumericCellValue()){
-                    System.out.println(cell.getRowIndex());
-                    return cell.getRowIndex();
-                }
-            }
-        }
-        return 0;
-    }
-
-    public void readXLS(){
+    public int findRowByValue(Long value) {
         Iterator<Row> rowIterator = sheet.iterator();
-
         while(rowIterator.hasNext()){
             Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-
-            while(cellIterator.hasNext()){
-                Cell cell = cellIterator.next();
-
+            if (row.getRowNum() == 0) continue;
+            Cell cell = row.getCell(2);
+            if (cell != null) {
                 CellType cellType = cell.getCellTypeEnum();
-
-                switch (cellType){
-                    case _NONE:
-                        System.out.print("");
-                        System.out.print("\t");
-                        break;
-                    case BOOLEAN:
-                        System.out.print(cell.getBooleanCellValue());
-                        System.out.print("\t");
-                        break;
-                    case BLANK:
-                        System.out.print("");
-                        System.out.print("\t");
-                        break;
-                    case FORMULA:
-                        // Formula
-                        System.out.print(cell.getCellFormula());
-                        System.out.print("\t");
-
-                        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-                        // Print out value evaluated by formula
-                        System.out.print(evaluator.evaluate(cell).getNumberValue());
-                        break;
-                    case NUMERIC:
-                        System.out.print(cell.getNumericCellValue());
-                        System.out.print("\t");
-                        break;
-                    case STRING:
-                        System.out.print(cell.getStringCellValue());
-                        System.out.print("\t");
-                        break;
-                    case ERROR:
-                        System.out.print("!");
-                        System.out.print("\t");
-                        break;
+                if (cellType == CellType.NUMERIC){
+                    if (value == new BigDecimal(cell.getNumericCellValue()).longValue())
+                        return row.getRowNum();
                 }
             }
         }
-        System.out.println();
+        return -1;
+    }
+
+    public void fillEmployee(){
+        for (RowService rowService : UserInterfaceController.rowServices) {
+            if (rowService.getEmployee() != null && rowService.getEmployee().getPhone() != 0){
+                CellType cellType;
+                int rowNum = findRowByValue(rowService.getEmployee().getPhone());
+                if (rowNum != -1){
+                    Row row = sheet.getRow(rowNum);
+                    Cell division = row.getCell(6);
+                    Cell employeeName = row.getCell(12);
+                    if (division != null) {
+                        cellType = division.getCellTypeEnum();
+                        switch (cellType){
+                            case BLANK:
+                                break;
+                            case STRING:
+                                rowService.getEmployee().setDivision(division.getStringCellValue().toUpperCase().trim());
+                                UserInterfaceController.divisionSet.add(division.getStringCellValue().toUpperCase().trim());
+                                break;
+                        }
+                    }
+                    if (employeeName != null) {
+                        cellType = employeeName.getCellTypeEnum();
+                        switch (cellType){
+                            case BLANK:
+                                break;
+                            case STRING:
+                                rowService.getEmployee().setEmployeeName(employeeName.getStringCellValue());
+                                break;
+                        }
+
+                    }
+                }
+            }
+        }
     }
 }
