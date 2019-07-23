@@ -7,15 +7,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.TreeSet;
 
 public class CSVFileReader {
     private final CSVReader reader;
     private int blocksRead = 0;
     private boolean isServiceBlock;
     private ArrayList<RowService> rowServices = UserInterfaceController.rowServices;
-    private HashSet<Long> codeSet = UserInterfaceController.codeSet;
     public CSVFileReader(String path) throws IOException {
-        reader = new CSVReader(new FileReader(path),';');
+        reader = new CSVReader(new FileReader("src/main/resources/detail_june.csv"),';');
     }
 
     public ArrayList<RowService> read() throws IOException{
@@ -43,8 +44,8 @@ public class CSVFileReader {
                         rs.setCode(Long.parseLong(line[2]));
                     }
                     if (!line[3].equals("")) rs.setServiceName(line[3]);
-                    if (!line[4].equals("")) rs.setAmount(parseFloat(line[4]));
-                    if (!line[5].equals("")) rs.setCost(parseFloat(line[5]));
+                    if (!line[4].equals("")) rs.setAmount(Float.parseFloat(line[4].replace(",",".")));
+                    if (!line[5].equals("")) rs.setCost(Float.parseFloat(line[5].replace(",",".")));
 
                     rowServices.add(rs);
 
@@ -55,21 +56,5 @@ public class CSVFileReader {
             }
         }
         return rowServices;
-    }
-
-    public void printRowServices(){
-        for (RowService rowService : rowServices) {
-            System.out.println(rowService);
-        }
-        for (Long aLong : codeSet) {
-            System.out.println(aLong);
-        }
-    }
-
-    private float parseFloat(String number){
-        String[] num = number.split(",");
-        if (num.length != 1)
-            return Float.parseFloat(num[0] + "." + num[1]);
-        return Float.parseFloat(num[0]);
     }
 }

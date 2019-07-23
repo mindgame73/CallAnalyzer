@@ -14,6 +14,7 @@ public class UserInterface {
     private JButton readButton;
     private JButton fillButton;
     private JButton refreshButton;
+    private JButton reportButton;
     private JTable serviceTable;
     private JFrame jFrame;
     private RowServiceTableModel rowServiceTableModel;
@@ -21,6 +22,7 @@ public class UserInterface {
     private String openCSVPath = "src/main/resources/images/open.png";
     private String openXLSPath = "src/main/resources/images/open2.png";
     private String refreshPath = "src/main/resources/images/refresh.png";
+    private String reportPath = "src/main/resources/images/report-excel.png";
 
     public JTable getServiceTable() {
         return serviceTable;
@@ -42,6 +44,10 @@ public class UserInterface {
         return rowServiceTableModel;
     }
 
+    public JButton getReportButton() {
+        return reportButton;
+    }
+
     public void init(){
         jFrame = new JFrame("Анализатор звонков 2.0");
         JPanel buttonsPanel = new JPanel();
@@ -50,16 +56,21 @@ public class UserInterface {
         JMenuItem openCSV = new JMenuItem("Открыть файл детализации .csv",new ImageIcon(openCSVPath));
         JMenuItem openXLS = new JMenuItem("Открыть файл справочника НИИАР.csv", new ImageIcon(openXLSPath));
         JMenuItem refresh = new JMenuItem("Обновить", new ImageIcon(refreshPath));
+        JMenuItem report = new JMenuItem("Напечатать и сохранить отчет", new ImageIcon(reportPath));
         file.add(openCSV);
         file.add(openXLS);
         file.add(refresh);
+        file.add(report);
         menuBar.add(file);
         jFrame.setJMenuBar(menuBar);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         readButton = new JButton("Считать файл детализации", new ImageIcon(openCSVPath));
         fillButton = new JButton("Считать файл справочника НИИАР", new ImageIcon(openXLSPath));
         refreshButton = new JButton("Обновить", new ImageIcon(refreshPath));
+        reportButton = new JButton("Вычислить и сохранить отчет", new ImageIcon(reportPath));
         refreshButton.setEnabled(false);
+        fillButton.setEnabled(false);
+        reportButton.setEnabled(false);
         rowServiceTableModel = new RowServiceTableModel(UserInterfaceController.rowServices);
         serviceTable = new JTable(rowServiceTableModel);
         for (int i = 0; i < serviceTable.getColumnModel().getColumnCount(); i++) {
@@ -68,7 +79,6 @@ public class UserInterface {
                 case 0:
                     tableColumn.setMaxWidth(40);
                     break;
-
                 case 3:
                     tableColumn.setMaxWidth(120);
                     tableColumn.setPreferredWidth(100);
@@ -88,6 +98,7 @@ public class UserInterface {
         buttonsPanel.add(readButton);
         buttonsPanel.add(fillButton);
         buttonsPanel.add(refreshButton);
+        buttonsPanel.add(reportButton);
         jFrame.add(buttonsPanel,BorderLayout.SOUTH);
         jFrame.setSize(dimension.width,dimension.height-50);
         jFrame.setVisible(true);
