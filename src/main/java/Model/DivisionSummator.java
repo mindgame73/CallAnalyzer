@@ -57,14 +57,19 @@ public class DivisionSummator {
         return String.format(Locale.GERMANY, "%.2f", num);
     }
 
+    String phone;
     public String printRestPart(RowService rowService){
         result = new StringBuilder();
         if (rowService.getEmployee() == null) result.append("\n;"+ rowService.getServiceName() + ";"
                 + rowService.getCode() + ";" + parseToString(rowService.getAmount()) + ";" + parseToString(rowService.getCost()));
-        else if (rowService.getEmployee().getDivision() == null)
-            result.append("\n;"+ rowService.getServiceName() + ";"
-                    + rowService.getCode() + ";" + parseToString(rowService.getAmount()) + ";" + parseToString(rowService.getCost()));
-
+        else if (rowService.getEmployee().getDivision() == null) {
+            phone = String.valueOf(rowService.getEmployee().getPhone());
+            //phone = rowService.getEmployee().getPhone();
+            //String phoneStr = phone != 0 ? String.valueOf(phone) : "";
+            result.append("\n;" + rowService.getServiceName() + ";"
+                    + rowService.getCode() + ";" + parseToString(rowService.getAmount()) + ";" + parseToString(rowService.getCost())
+                    + ";" + phone);
+        }
         return result.toString();
     }
 
