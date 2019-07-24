@@ -7,6 +7,7 @@ import Model.RowServiceTableModel;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class UserInterface {
@@ -18,11 +19,11 @@ public class UserInterface {
     private JTable serviceTable;
     private JFrame jFrame;
     private RowServiceTableModel rowServiceTableModel;
-    private JMenuBar menuBar;
     private String openCSVPath = "src/main/resources/images/open.png";
     private String openXLSPath = "src/main/resources/images/open2.png";
     private String refreshPath = "src/main/resources/images/refresh.png";
     private String reportPath = "src/main/resources/images/report-excel.png";
+    private String faviconPath = "src/main/resources/images/icon.jpg";
 
     public JTable getServiceTable() {
         return serviceTable;
@@ -51,18 +52,7 @@ public class UserInterface {
     public void init(){
         jFrame = new JFrame("Анализатор звонков 2.0");
         JPanel buttonsPanel = new JPanel();
-        menuBar = new JMenuBar();
-        JMenu file = new JMenu("Файл");
-        JMenuItem openCSV = new JMenuItem("Открыть файл детализации .csv",new ImageIcon(openCSVPath));
-        JMenuItem openXLS = new JMenuItem("Открыть файл справочника НИИАР.csv", new ImageIcon(openXLSPath));
-        JMenuItem refresh = new JMenuItem("Обновить", new ImageIcon(refreshPath));
-        JMenuItem report = new JMenuItem("Напечатать и сохранить отчет", new ImageIcon(reportPath));
-        file.add(openCSV);
-        file.add(openXLS);
-        file.add(refresh);
-        file.add(report);
-        menuBar.add(file);
-        jFrame.setJMenuBar(menuBar);
+        jFrame.setIconImage(new ImageIcon(faviconPath).getImage());
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         readButton = new JButton("Считать файл детализации", new ImageIcon(openCSVPath));
         fillButton = new JButton("Считать файл справочника НИИАР", new ImageIcon(openXLSPath));

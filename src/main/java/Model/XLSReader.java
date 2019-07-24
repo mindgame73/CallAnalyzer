@@ -20,7 +20,7 @@ public class XLSReader {
     private HSSFSheet sheet;
 
     public XLSReader(String path) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("src/main/resources/NEC.xls"));
+        FileInputStream fis = new FileInputStream(new File(path));
         workbook = new HSSFWorkbook(fis);
         sheet = workbook.getSheet("Лист1");
 

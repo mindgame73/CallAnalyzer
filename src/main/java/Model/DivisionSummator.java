@@ -53,7 +53,19 @@ public class DivisionSummator {
         return result.toString();
     }
 
-    public String parseToString(float num){
+    private String parseToString(float num){
         return String.format(Locale.GERMANY, "%.2f", num);
     }
+
+    public String printRestPart(RowService rowService){
+        result = new StringBuilder();
+        if (rowService.getEmployee() == null) result.append("\n;"+ rowService.getServiceName() + ";"
+                + rowService.getCode() + ";" + parseToString(rowService.getAmount()) + ";" + parseToString(rowService.getCost()));
+        else if (rowService.getEmployee().getDivision() == null)
+            result.append("\n;"+ rowService.getServiceName() + ";"
+                    + rowService.getCode() + ";" + parseToString(rowService.getAmount()) + ";" + parseToString(rowService.getCost()));
+
+        return result.toString();
+    }
+
 }

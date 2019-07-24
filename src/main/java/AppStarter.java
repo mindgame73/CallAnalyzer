@@ -15,5 +15,6 @@ public class AppStarter {
 
         UserInterfaceController controller = new UserInterfaceController(ui);
         controller.init();
+
     }
 }

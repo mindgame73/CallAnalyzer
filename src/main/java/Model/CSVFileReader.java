@@ -16,7 +16,7 @@ public class CSVFileReader {
     private boolean isServiceBlock;
     private ArrayList<RowService> rowServices = UserInterfaceController.rowServices;
     public CSVFileReader(String path) throws IOException {
-        reader = new CSVReader(new FileReader("src/main/resources/detail_june.csv"),';');
+        reader = new CSVReader(new FileReader(path),';');
     }
 
     public ArrayList<RowService> read() throws IOException{
